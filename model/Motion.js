@@ -6,9 +6,12 @@ const motionSchema=new Schema({
         type: String,
         required: true
     },
-    infoSlide: String,
+    infoslide: String,
     theme: String,
-    type: String,
+    type: {
+        type:String,
+        required: true
+    },
     source:String
 });
 

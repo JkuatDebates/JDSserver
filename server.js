@@ -17,4 +17,7 @@ app.use(express.urlencoded({extended: false}));
 //routes
 app.use('/motions',require('./routes/api/motions.route'));
 
-app.listen(PORT,()=> console.log(`Server running on port ${PORT}`));
+mongoose.connection.once('open',()=>{
+    console.log('Connected to MongoDB');
+    app.listen(PORT,()=> console.log(`Server running on port ${PORT}`));
+});
