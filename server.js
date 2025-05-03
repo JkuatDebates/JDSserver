@@ -11,15 +11,12 @@ connectDB();//.then(()=>console.log("DB connected"));
 
 //middleware
 app.use(express.json());
-app.use(cors({
-    origin: 'https://jdsweb.netlify.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-  }));
+app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
 
 //routes
 app.use('/motions',require('./routes/api/motions.route'));
+app.use('/articles',require('./routes/api/articles.route'));
 
 mongoose.connection.once('open',()=>{
     console.log('Connected to MongoDB');
