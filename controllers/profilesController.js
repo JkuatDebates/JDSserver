@@ -91,6 +91,7 @@ const replaceProfile=async (req,res)=>{
                 startYear,
                 stillActive,
                 catchPhrase,
+                isVisible,
                 rumor,
                 passions: JSON.parse(passions || '[]'),
                 trainingRoles: JSON.parse(trainingRoles || '[]'),
