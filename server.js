@@ -17,6 +17,8 @@ app.use(express.urlencoded({extended: false}));
 //routes
 app.use('/motions',require('./routes/api/motions.route'));
 app.use('/articles',require('./routes/api/articles.route'));
+app.use('/profiles',require('./routes/api/profiles.route'));
+app.use('/events',require('./routes/api/events.route'));
 
 mongoose.connection.once('open',()=>{
     console.log('Connected to MongoDB');
