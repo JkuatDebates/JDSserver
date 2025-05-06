@@ -138,7 +138,7 @@ const deleteProfile=async (req,res)=>{
         if(!tobeDeleted){
             return res.status(404).json({message:'Profile not found'})
         }
-        //delete image from cludinary
+        //delete image from cloudinary
         if (tobeDeleted.photo) {
             const regex = /\/profiles\/([^\/]+)\.(jpg|jpeg|png)$/;
             const match = tobeDeleted.photo.match(regex);

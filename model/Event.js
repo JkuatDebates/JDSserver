@@ -7,14 +7,14 @@ const eventSchema=new Schema({
         required: true,
         trim: true
     },
-    eventType:{
-        type: String,
-        enum:['Online','Physical','Hybrid'],
-        required: true
-    },
     eventLevel:{
         type: String,
         enum:['University','High School','Grade School'],
+        required: true
+    },
+    eventType:{
+        type: String,
+        enum:['Public Speaking','BP Debate',"World's Debate","PS and BP", "PS and World's"],
         required: true
     },
     venue:{
@@ -22,20 +22,20 @@ const eventSchema=new Schema({
         required: true,
         default: 'TBA'
     },
+    venueType:{
+        type: String,
+        enum:['Online','Physical','Hybrid'],
+        required: true
+    },
     startDate: Date,
     endDate: Date,
-    startTime: Date,
-    registrationFee:{
-        judgeFee: Number,
-        speakerFee: Number,
-        observerFee: Number
-    },
+    judgeFee: Number,
+    speakerFee: Number,
+    observerFee: Number,
     poster: String,
-    registrationLinks:{
-        speakerLink: String,
-        judgeLink: String,
-        observerLink:String
-    },
+    speakerLink: String,
+    judgeLink: String,
+    observerLink:String,
     paymentDetails: String,
     description:String,
     displayed:{
