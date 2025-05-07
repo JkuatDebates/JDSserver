@@ -14,7 +14,7 @@ const eventSchema=new Schema({
     },
     eventType:{
         type: String,
-        enum:['Public Speaking','BP Debate',"World's Debate","PS and BP", "PS and World's"],
+        enum:['Public Speaking','BP Debate',"World's Debate","PS and BP", "PS and World's",'Club Event','Circuit Event'],
         required: true
     },
     venue:{
@@ -27,11 +27,21 @@ const eventSchema=new Schema({
         enum:['Online','Physical','Hybrid'],
         required: true
     },
+    host:String,
     startDate: Date,
     endDate: Date,
-    judgeFee: Number,
-    speakerFee: Number,
-    observerFee: Number,
+    judgeFee: {
+        type: Number,
+        default: 0
+    },
+    speakerFee: {
+        type: Number,
+        default: 0
+    },
+    observerFee: {
+        type: Number,
+        default: 0
+    },
     poster: String,
     speakerLink: String,
     judgeLink: String,
