@@ -1,5 +1,6 @@
 const User=require('../model/User');
 const bcryptjs= require('bcryptjs');
+const jwt=require('jsonwebtoken');
 
 const register=async (req,res)=>{
     const {username, password, email}= req.body;
@@ -26,9 +27,20 @@ const login=async (req,res)=>{
             }        
         const matching= await bcryptjs.compare(password, user.password);
         if(!matching){
-            return res.sendStatus(401);
+            return res.status(401).json({message:'Wrong password'});
         }
-        else res.status(200).json({message:"Log in successful"});
+        const token=jwt.sign({
+            "userInfo":{
+                'id':user._id,
+                'username':user.username,
+                'role':user.role,
+                'email':user.email
+            }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {expiresIn:'1d'}
+        );
+        res.cookie('jwt',token, {httpOnly: true, maxAge:24*60*60*1000}).status(200).json({token});
     }
     catch(err){
         console.log(error);
