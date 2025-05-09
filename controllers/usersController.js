@@ -45,9 +45,109 @@ const login=async (req,res)=>{
     catch(err){
         console.log(error);
     }
+};
+const getUsers=async(req,res)=>{
+    console.log('users called');
+    const users=await User.find();
+    if(!users) return res.status(204).json({"message":'No users found in DB'});
+    //console.log(users);
+    res.json(users);
 }
+const changePwd=async(req,res)=>{
+    console.log('changePwd');
+    const {id, password}=req.body;
+    try{
+        const hashed=await bcryptjs.hash(password,10);
+        const updated= await User.findByIdAndUpdate(id, {password: hashed},{new:true});
+        if(!updated){
+            return res.sendStatus(404);
+        }
+        res.status(200).json({message:'Password changed'});
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({message:'Error on changePwd'});
+    }
+};
+const resetPwd=async(req,res)=>{
+    console.log('resetPwd');
+    const {id}=req.body;
+    try{
+        const hashed=await bcryptjs.hash('password',10);
+        const updated=User.findByIdAndUpdate(id,{password: hashed},{new: true}).exec();
+        if(!updated){
+            return res.status(404).json({message:'Reset error, user not found'});
+        }
+        res.status(200).json({message:'Password Updated'});
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({message:'User not found on resetPwd'});
+    }
+};
+const changeUsn=async(req,res)=>{
+    console.log('changeUsn');
+    const {id, username}=req.body;
+    try{
+        const updated= await User.findByIdAndUpdate(id, {username: username},{new:true});
+        if(!updated){
+            return res.sendStatus(404);
+        }
+        res.status(200).json({message:'Username changed'});
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({message:'Error on changeUsn'});
+    }
+};
+const changeRole=async(req,res)=>{
+    console.log('changeRole');
+    const {id, role}= req.body;
+    try{
+        const updated=await User.findByIdAndUpdate(id,{role:role},{new: true});
+        if(!updated) {
+            return res.status(400).json({message:'User not found on role change'});
+        }
+        res.status(200).json({message:{updated}});
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({message:'User not found, role change'});
+    }
+     
+};
+const deleteAccount=async(req,res)=>{
+    console.log('delete Account!');
+    const id= req.params.id;
+    const {password}=req.body;
+    try{
+        const todelete=await User.findById(id).exec();
+        if(!todelete){
+            return res.status(404);
+        }
+        const match=await bcryptjs.compare(password, todelete.password);
+        if(!match){
+            return res.status(401).json({message:'Wrong password'});
+        }
+        const deleted=await User.deleteOne({_id:id});
+        if(!deleted){
+            return res.status(404);
+        }
+        res.json(deleted);
+    }
+    catch(err){
+        console.log(err);
+        res.status(400).json({message:'User not found, account delete'});
+    }
+};
 
 module.exports={
     register,
-    login
+    login,
+    changePwd,
+    resetPwd,
+    changeUsn,
+    changeRole,
+    deleteAccount,
+    getUsers
 }
