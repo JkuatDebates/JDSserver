@@ -12,7 +12,17 @@ const motionSchema=new Schema({
         type:String,
         required: true
     },
-    source:String
+    source:String,
+    votes:{
+            type:[{
+            email:String,
+            voteType:{
+                type: String,
+                enum:['up','down']
+            }
+            }],
+            default:[{email:''}]
+}
 });
 
 module.exports=mongoose.model('Motion',motionSchema);

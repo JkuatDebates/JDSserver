@@ -7,6 +7,9 @@ router.route('/')
     .post(motionsController.addMotion)
     .put(motionsController.updateMotion);
 
+router.route('/vote')
+      .post(motionsController.vote);
+
 router.route('/:id')
     .delete(motionsController.deleteMotion);
 module.exports=router;
