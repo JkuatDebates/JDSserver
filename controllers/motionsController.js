@@ -78,8 +78,7 @@ const vote= async(req,res)=>{
             motion.votes.push({email, vote});
         }
         await motion.save();
-        res.status(201).json({message:'Vote successful'});
-        
+        res.status(201).json({message:'Vote successful'});  
     }
     catch(err){
         console.log(err);

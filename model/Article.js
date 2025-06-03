@@ -21,9 +21,8 @@ const articleSchema=new Schema({
         enum:['Debate Topics','Personal Takes', 'Other','Tournament Review','PS Topics','Training'],
         default: 'Other'
     },
-    thumbnail: String,
     content:{
-        type:String,
+        type:[{blockTag: String, blockData:String}],
         required: true
     },
     displayed:{

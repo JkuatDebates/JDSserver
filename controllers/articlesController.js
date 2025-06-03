@@ -7,18 +7,34 @@ const getArticles=async(req,res)=>{
 }
 const postArticle=async(req,res)=>{
     if(!req?.body?.content) return res.status(201).json({"message":'article has to have some content'});
+    console.log('new article');
     try{
+        const {title, author, datePublished
+            ,tag, content
+        }=req.body;
+        const contentArray=JSON.parse(content);
+        const articleImages=req.files;//array of uploaded image urls from cloudinary
+
+        //replace content blockData with cloudinary urls
+        let imageIndex=0;
+        const updatedContent=contentArray.map((block)=>{
+            if(block.blockTag==='image' && articleImages[imageIndex]){
+                const cloudinaryUrl=articleImages[imageIndex].path;
+                imageIndex++;
+                return{...block, blockData: cloudinaryUrl};
+            }
+            return block;
+        });
+
         const newArticle=await Article.create({
-            title: req.body.title,
-            author: req.body.author,
-            tag: req.body.tag,
-            datePublished: req.body.datePublished,
-            content: req.body.content,
-            thumbnail: req.body.thumbnail,
-            displayed:req.body.displayed
+            title,
+            author,
+            tag,
+            datePublished,
+            content: updatedContent
         });
         if(newArticle)
-            res.json(newArticle);
+            res.status(201).json(newArticle);
     }
     catch(err){
         console.log(err);
